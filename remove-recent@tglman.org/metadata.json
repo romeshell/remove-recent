@@ -1,0 +1,8 @@
+{
+"uuid": "remove-recent@tglman.org",
+"name": "Remove Recent Item",
+"description": "Remove an recent item with a simple click in everview",
+"shell-version": [ "3.2" ],
+"url": "http://github.com/tglman/romeshell/",
+"version": 3
+}
