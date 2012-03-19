@@ -1,4 +1,5 @@
 
+const DocInfo = imports.misc.docInfo;
 const DocDisplay = imports.ui.docDisplay;
 const IconGrid = imports.ui.iconGrid;
 const St = imports.gi.St;
@@ -37,10 +38,17 @@ RecentIcon.prototype = {
 	
 	_removeRecent : function () {
 		Gtk.RecentManager.get_default().remove_item(this.resultMeta['id']);
-		Main.overview._viewSelector._searchTab._text.text='';
-		Main.overview._viewSelector._searchTab._onTextChanged();
-		Main.overview._viewSelector._searchTab._text.text = this.terms.toString();
-		Main.overview._viewSelector._searchTab._onTextChanged();
+		for(let i = 0 ; i<DocInfo.getDocManager()._infosByTimestamp.length;i++)
+		{
+			if(DocInfo.getDocManager()._infosByTimestamp[i].uri == this.resultMeta['id'])
+				DocInfo.getDocManager()._infosByTimestamp.splice(i,1);
+		}
+		delete DocInfo.getDocManager()._infosByUri[this.resultMeta['id']];
+		let over = Main.overview._viewSelector._searchTab;
+		over._text.text = '';
+		over._doSearch();
+		over._text.text = this.terms.toString();
+		over._doSearch();
 	},
 	
 	_onEnter : function () {
